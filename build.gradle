@@ -22,4 +22,23 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                def output = "Result: ${result.resultType} (${result.testCount} tests, " +
+                        "${result.successfulTestCount} success, " +
+                        "${result.failedTestCount} fails)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' +
+                        ('-' * repeatLength) +
+                        '\n' +
+                        startItem +
+                        output +
+                        endItem +
+                        '\n' +
+                        ('-' * repeatLength))
+            }
+        }
+    }
 }
