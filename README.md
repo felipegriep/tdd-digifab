@@ -1,0 +1,155 @@
+# Roteiros:
+
+## Índice:
+ - [TDD - Cenário 1: Cadastro de um produto válido](#tdd---cenário-1-cadastro-de-um-produto-válido)
+ - [TDD - Cenário 2: Cadastro com campos obrigatórios em branco](#tdd---cenário-2-cadastro-com-campos-obrigatórios-em-branco)
+ - [TDD - Cenário 3: Cadastro de produto já existente](#tdd---cenário-3-cadastro-de-produto-já-existente)
+ - [TDD - Cenário 4: Edição de produto já cadastrado](#tdd---cenário-4-edição-de-produto-já-cadastrado)
+ - [TDD - Cenário 5: Exclusão de produto cadastrado](#tdd---cenário-5-exclusão-de-produto-cadastrado)
+ - [Refactoring](#refactoring)
+
+## TDD - Cenário 1: Cadastro de um produto válido
+- ✅ 01. Criar a classe de Teste RepositorioProdutoTest;
+- ✅ 02. Criar o teste deveCadastrarUmProdutoValido, anotando com @Test;
+- ✅ 03. Criar uma instância do tipo Produto com os dados de código e nome;
+- ✅ 04. O teste deve falhar;
+- ✅ 05. Criar a classe Produto com os atributos código e nome;
+- ✅ 06. O teste deve passar;
+- ✅ 07. Realizar a chamada de RepositorioProduto.cadastrarProduto() e passar a instância de Produto, verificando se o retorno é true;
+- ✅ 08. O teste deve falhar;
+- ✅ 09. Criar a classe RepositorioProduto;
+- ✅ 10. O teste deve falhar;
+- ✅ 11. Criar o método cadastrarProduto(), como static, retornando o tipo boolean com o valor true;
+- ✅ 12. O teste deve passar;
+- ✅ 13. Alterar o teste deveCadastrarUmProdutoValido para validar se realmente foi cadastrado o produto, chamando o RepositorioProduto.listarProdutos() validando se o retorno é diferente de Null;
+- ✅ 14. O teste deve falhar;
+- ✅ 15. Alterar a classe RepositorioProduto, incluindo o método listarProdutos(), como static, com o retorno do tipo Lista de Produto e retornando uma lista vazia;
+- ✅ 16. O teste deve falhar;
+- ✅ 17. Alterar listarProdutos() retornando a lista de produtos;
+- ✅ 18. O teste deve passar;
+- ✅ 19. Alterar o teste deveCadastrarUmProdutoValido para validar se o produto cadastrado é o mesmo que o do último item da lista de produtos cadastrados;
+- ✅ 20. O teste deve passar;
+- ✅ 21. Criar uma instância do tipo Fornecedor com os dados de código e nome, antes da instância de Produto;
+- ✅ 22. O teste deve falhar;
+- ✅ 23. Criar a classe Fornecedor com os atributos código e nome;
+- ✅ 24. O teste deve passar;
+- ✅ 25. Passar a instância de Fornecedor para o construtor do Produto, como terceiro parâmetro;
+- ✅ 26. O teste deve falhar;
+- ✅ 27. Alterar a classe Produto, adicionando o atributo do tipo Fornecedor, receber como terceiro parâmetro no construtor e atribuir ao atributo da classe;
+- ✅ 28. O teste deve passar;
+- ✅ 29. Criar uma instância do tipo Categoria com os dados de código e nome, antes da instância de Produto;
+- ✅ 30. O teste deve falhar;
+- ✅ 31. Criar a classe Categoria com os atributos código e nome;
+- ✅ 32. O teste deve passar;
+- ✅ 33. Passar a instância de Categoria para o construtor do Produto, como quarto parâmetro;
+- ✅ 34. O teste deve falhar;
+- ✅ 35. Alterar a classe Produto, adicionando o atributo do tipo Categoria, receber como quarto parâmetro no construtor e atribuir ao atributo da classe;
+- ✅ 36. O teste deve passar;
+
+## TDD - Cenário 2: Cadastro com campos obrigatórios em branco
+- ✅ 01. Criar o teste naoDeveCadastrarUmProdutoSemDadosObrigatorios, anotando com @Test;
+- ✅ 02. Criar uma instância do tipo Produto com o construtor sem parâmetros;
+- ✅ 03. O teste deve falhar;
+- ✅ 04. Alterar a classe Produto, criando um construtor sem parâmetros;
+- ✅ 05. O teste deve passar;
+- ✅ 06. Realizar a chamada de RepositorioProduto.cadastrarProduto() e passar a instância de Produto, verificando se o retorno é uma Exception do tipo IllegalArgumentException;
+- ✅ 07. O teste deve falhar;
+- ✅ 08. Alterar RepositorioProduto.cadastrarProduto(), incluindo validação de todos os atributos se possuem valor. Se algum for nulo ou vazio retorna um IllegalArgumentException com a mensagem "Dados obrigatórios não informados.”. Deve ser importado o “org.apache.commons:commons-lang3:3.18.0” e utilizados os métodos StringUtils.isEmpty() e ObrjectUtils.isEmpty() para a validação;
+- ✅ 09. O teste deve passar;
+- ✅ 10. Alterar o teste naoDeveCadastrarUmProdutoSemDadosObrigatorios para validar se a mensagem da Exception é "Dados obrigatórios não informados.";
+- ✅ 11. O teste deve passar;
+- ✅ 12. Alterar o teste naoDeveCadastrarUmProdutoSemDadosObrigatorios para validar se o retorno RepositorioProduto.listarProdutos() é 0; 
+- ✅ 13. O teste deve passar;
+
+## TDD - Cenário 3: Cadastro de produto já existente
+- ✅ 01. Criar o teste naoDeveCadastrarUmProdutoDuplicado, anotando com @Test;
+- ✅ 02. Criar uma instância do tipo Produto com os dados de código, nome, fornecedor e categoria;
+- ✅ 03. O teste deve passar;
+- ✅ 04. Realizar a chamada de RepositorioProduto.cadastrarProduto() e passar a instância de Produto, verificando se o retorno é true;
+- ✅ 05. O teste deve passar;
+- ✅ 06. Criar uma nova instância do tipo Produto com os dados de código, nome, fornecedor e categoria, mas com o mesmo código;
+- ✅ 07. O teste deve passar;
+- ✅ 08. Realizar a chamada de RepositorioProduto.cadastrarProduto() e passar a nova instância de Produto, verificando se o retorno é uma Exception do tipo IllegalArgumentException;
+- ✅ 09. O teste deve falhar;
+- ✅ 10. Alterar RepositorioProduto.cadastrarProduto(), incluindo, após a validação dos atributos, a validação da existência do código do produto na lista de produtos e se existir retorna um IllegalArgumentException com a mensagem “Produto XXX já cadastrado.”, onde XXX é o código do produto;
+- ✅ 11. O teste deve passar;
+
+## TDD - Cenário 4: Edição de produto já cadastrado
+- ✅ 01. Criar o teste deveEditarProdutoCadastrado, anotando com @Test;
+- ✅ 02. Criar uma instância do tipo Produto com os dados de código, nome, fornecedor e categoria;
+- ✅ 03. O teste deve passar;
+- ✅ 04. Realizar a chamada de RepositorioProduto.cadastrarProduto() e passar a instância de Produto, verificando se o retorno é true;
+- ✅ 05. O teste deve passar;
+- ✅ 06. Criar uma nova instância do tipo Produto com os dados de código, nome, fornecedor e categoria, mas com o mesmo código;
+- ✅ 07. O teste deve passar;
+- ✅ 08. Realizar a chamada de RepositorioProduto.editarProduto() e passar a instância de Produto, verificando se o retorno é true;
+- ✅ 09. O teste deve falhar;
+- ✅ 10. Criar o método editarProduto(), como static, retornando o tipo boolean com o valor true;
+- ✅ 11. O teste deve passar;
+- ✅ 12. Alterar o teste deveEditarProdutoCadastrado para validar se o último produto de RepositorioProduto.listarProdutos() é igual a nova instância de Produto; 
+- ✅ 13. O teste deve falhar;
+- ✅ 14. Alterar o método RepositorioProduto.editarProduto(), incluindo a lógica para atualizar o produto;
+- ✅ 15. O teste deve passar;
+
+## TDD - Cenário 5: Exclusão de produto cadastrado
+- ✅ 01. Criar o teste deveExcluirProdutoCadastrado, anotando com @Test;
+- ✅ 02. Criar uma instância do tipo Produto com os dados de código, nome, fornecedor e categoria;
+- ✅ 03. O teste deve passar;
+- ✅ 04. Realizar a chamada de RepositorioProduto.cadastrarProduto() e passar a instância de Produto, verificando se o retorno é true;
+- ✅ 05. O teste deve passar;
+- ✅ 06. Realizar a chamada de RepositorioProduto.excluirProduto() e passar o código do produto a ser excluído, verificando se o retorno é true;
+- ✅ 07. O teste deve falhar;
+- ✅ 08. Criar o método excluirProduto(), como static, retornando o tipo boolean com o valor true;
+- ✅ 09. O teste deve passar;
+- ✅ 10. Alterar o teste deveExcluirProdutoCadastrado para validar se o último produto de RepositorioProduto.listarProdutos() é não é igual a instância de Produto; 
+- ✅ 11. O teste deve falhar;
+- ✅ 12. Alterar o método RepositorioProduto.excluirProduto(), incluindo a lógica para excluir o produto;
+- ✅ 13. O teste deve passar;
+
+## Refactoring
+- ✅ 01. Substituir a dependência “org.apache.commons:commons-lang3:3.18.0” pela dependência “jakarta.validation:jakarta.validation-api:3.1.1” e incluir as dependências “org.hibernate.validator:hibernate-validator:9.0.1.Final” e “org.glassfish.expressly:expressly:6.0.0”
+- ✅ 02. Incluir a dependência de testes “org.hamcrest:hamcrest:2.2”
+- ✅ 03. Remover o bloco de validações de vazio do método RepositorioProduto.cadastrarProduto();
+- ✅ 04. Alterar a classe Produto, incluindo “@NotBlank(message = "O atributo xxx e obrigatorio")” para os atributos tipo String e “@NotNull(message = "O atributo xxx e obrigatorio”)” para os atributos do tipo objeto. “xxx” deve ser usado o nome do atributo;
+- ✅ 05. Alterar a classe RepositórioProduto e criar uma variável do tipo “jakarta.validation.ValidatorFactory” e uma variável do tipo “jakarta.validation.Validator”;
+- ✅ 06. Na classe RepositórioProduto criar um construtor vazio, inicializando a variável do tipo “jakarta.validation.ValidatorFactory” com “Validation.buildDefaultValidatorFactory()” e a variável do tipo “jakarta.validation.Validator” com “factory.getValidator()”
+- ✅ 07. No método cadastrarProduto() da classe RepositorioProduto substituir o bloco de validação de  nulo ou vazio por uma validação via “Validator.validate” atribuindo para uma lista. Se essa lista estiver diferente de vazia dá um IllegalArgumentException passando a lista de mensagens de validação. Essa validação deve estar num método separado e ser chamado no método cadastrarProduto();
+- ✅ 08. Ainda na classe RepositórioProduto remover todos os “static” das variáveis e métodos;
+- ✅ 09. Os testes vão falhar;
+- ✅ 10. Na classe de teste RepositorioProdutoTest criar uma variável do tipo RepositorioProduto;
+- ✅ 11. Os testes vão falhar;
+- ✅ 12. Modificar a classe de testes RepositorioProdutoTest substituindo todas as chamadas “static” pela variável do tipo RepositorioProduto;
+- ✅ 13. Os testes vão quebrar;
+- ✅ 14. Modificar a classe de teste incluindo o método init() que retorna void e anotar com “@BeforeEach”;
+- ✅ 15. Os testes vão quebrar;
+- ✅ 16. No método init(), inicializar a variável do tipo RepositorioProduto;
+- ✅ 17. Os testes naoDeveCadastrarUmProdutoSemDadosObrigatorios e deveExcluirProdutoCadastrado irão falhar;
+- ✅ 18. Ajustar o teste naoDeveCadastrarUmProdutoSemDadosObrigatorios, removendo “Assertions.assertEquals("Dados obrigatórios não informados.", exception.getMessage());” e inserindo “MatcherAssert.assertThat(exception.getMessage(), CoreMatchers.containsString("e obrigatorio"));”
+- ✅ 19. O teste naoDeveCadastrarUmProdutoSemDadosObrigatorios irá passar;
+- ✅ 20. Ajustar o teste deveExcluirProdutoCadastrado e remover a validação “Assertions.assertNotEquals(produto, produtosCadastrados.getLast());” e incluir a validação “Assertions.assertEquals(1, repositorioProduto.listarProdutos().size());” logo após o primeiro cadastro e a validação “Assertions.assertEquals(1, repositorioProduto.listarProdutos().size());” no final do teste;
+- ✅ 21. O teste deveExcluirProdutoCadastrado irá passar;
+- ✅ 22. Em todos os testes o código do produto pode começar com “001” e seguir a sequência;
+- ✅ 23. Os testes irão passar;
+- ✅ 24. No método cadastrarProduto() da classe RepositorioProduto, no bloco que valida se o código do produto já existe, deve ser refatorado para ser realizado num método de validação e então este método ser chamado em cadastrarProduto();
+- ✅ 25. Todos os testes irão passar;
+- ✅ 26. No método cadastrarProduto() da classe RepositorioProduto alterar para remover o retorno true e para se tornar void; 
+- ✅ 27. Todos os testes irão falhar;
+- ✅ 28. Alterar todos os testes da validação “Assertions.assertTrue(repositorioProduto.cadastrarProduto(produto));” para a validação “Assertions.assertDoesNotThrow(() -> repositorioProduto.cadastrarProduto(produto));”
+- ✅ 29. Todos os testes irão passar;
+- ✅ 30. Na classe de testes RepositórioProdutoTest criar um método static com o nome criarProduto() e retornar uma instância do tipo produto com os valores do teste deveCadastrarUmProdutoValido;
+- ✅ 31. No teste deveCadastrarUmProdutoValido substituir a criação da instância Produto pela chamada do método static criarProduto();
+- ✅ 32. Os testes devem passar;
+- ✅ 33. Nos demais testes em que a criação se repete, substituir pelo método static criarProduto();
+- ✅ 34. Os testes devem passar;
+- ✅ 35. Na classe de testes RepositórioProdutoTest criar um método static com o nome criarProdutoVazio() e retornar uma instância do tipo produto sem valores;
+- ✅ 36. No teste naoDeveCadastrarUmProdutoSemDadosObrigatorios substituir a criação da instância Produto pelo método static criarProdutoVazio();
+- ✅ 37. Na classe de testes RepositórioProdutoTest criar um método static com o nome criarProdutoEditado() e retornar uma instância do tipo produto com os valores do teste deveEditarProdutoCadastrado;
+- ✅ 38. Os testes devem passar.
+- ✅ 39. No método static criarProduto() criar um parâmetro nome do tipo String, esse parâmetro deve ser atribuído ao atributo nome do Produto;
+- ✅ 40. Todos os testes irão falhar;
+- ✅ 41. Em todos as chamadas do método static criarProduto(), deve ser passado o parâmetro com o nome originalmente definido;
+- ✅ 42. Os testes devem passar;
+- ✅ 43. No teste naoDeveCadastrarUmProdutoDuplicado, substituir a criação na variável produto2 pelo método static criarProduto() passando o nome original como parâmetro;
+- ✅ 44. Todos os testes deve passar;
+- ✅ 45. Criar uma classe chamada ProdutoFactory, em nível de testes, e mover os métodos static para essa classe. Via funcionalidade da IDE;
+- ✅ 46. Todos os testes devem passar;
